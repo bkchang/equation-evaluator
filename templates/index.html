@@ -1,0 +1,38 @@
+<doctype html>
+<head>
+    <title>Equation evaluator</title>
+</head>
+
+<h1>Equation Evaluator</h1>
+
+<h2>Enter equation</h2>
+<form action="{{ url_for("index")}}" method="post">
+  <input type="text" id="equation" name="eq" placeholder="{{ equation }}"> = <strong> {{ result }} </strong> <br>
+  <input type="hidden" name="request_identifier" value="enter" />
+  <button type="evaluate">submit</button>
+</form>
+
+<h2>Or upload a sample (.txt)</h2>
+<form enctype="multipart/form-data" method="post">
+  <input type="file" id="myFile" name="file">
+  <input type="hidden" name="request_identifier" value="upload" />
+  <input type="submit" value="upload">
+</form>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+<h2>Message</h2>
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% if show_download %}
+<p>
+Sample evaluation complete. Download result 
+<a href='{{ url_for('.download_file') }}'>here</a>.
+</p>
+{% endif%}
